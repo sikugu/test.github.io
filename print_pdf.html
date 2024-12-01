@@ -17,12 +17,8 @@
 
 <body>
     <h2 style="color:green">
-        GeeksforGeeks
+         Generate PDF file using jsPDF library
     </h2>
-    <h3>
-        Generate PDF file using jsPDF library
-    </h3>
-
 
     <!-- <script src="./jspdf.umd.min.js"></script> -->
     <script>
@@ -55,7 +51,7 @@
         }
 
         function printPdfIframeInNewWindow() {
-            // Code Snipet 1 - Open blob in new tab (this solves cors error)
+            // Open blob in new tab (this solves cors error)
             const blobUrl = generateAndPrintPDF();
 
             const printWindow = window.open(blobUrl, '_blank');
@@ -68,20 +64,18 @@
                     }
                 }, true);
             }
-            // Code Snipet 1 - end
+
         }
 
         function printPdfIframeInSameWindow() {
-            // Code Snipet 2 - This is what the site is doing printing it in a iframe, but this is causing cors error. 
+            // This can cause cors issue. 
             const blobUrl = generateAndPrintPDF();
-            //Create hidden iframe
+            // Create hidden iframe
             const printFrame = document.createElement('iframe');
             printFrame.style.display = 'none';
             document.body.appendChild(printFrame);
-
             printFrame.src = blobUrl;
-
-            // // Wait for iframe to load before printing
+            // Wait for iframe to load before printing
             printFrame.onload = function () {
                 try {
                     // Access iframe content
@@ -99,14 +93,12 @@
                     console.error('Error printing:', e);
                 }
             };
-
-            // Code Snipet 2 - end
         }
 
         function printPdfIframeInSameWindowPost() {
-            // Code Snipet 3 - To fix cors error below solution is tried, this won't work as expected
+            // To fix cors error
             const blobUrl = generateAndPrintPDF();
-            //Create hidden iframe
+            // Create hidden iframe
             const printFrame = document.createElement('iframe');
             printFrame.style.display = 'none';
             document.body.appendChild(printFrame);
@@ -119,17 +111,14 @@
                     printFrame.contentWindow.print();
                 }
             });
-
-            // Code Snipet 3 - end
         }
 
     </script>
 
     <button type="button" onclick="printPdfIframeInNewWindow()">Print the pdf iframe in a new window!</button>
-    </br>
+    </br></br></div>
     <button type="button" onclick="printPdfIframeInSameWindow()">Print the pdf iframe in same window!</button>
-    </br>
-
+    </br></br>
     <button type="button" onclick="printPdfIframeInSameWindowPost()">Print the pdf iframe in same window by
         posting!</button>
 </body>
