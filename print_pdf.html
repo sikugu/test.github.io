@@ -110,12 +110,12 @@
             const printFrame = document.createElement('iframe');
             printFrame.style.display = 'none';
             document.body.appendChild(printFrame);
-        
+
             printFrame.src = blobUrl;
-            
-            printFrame.contentWindow.postMessage('print','*');
+
+            printFrame.contentWindow.postMessage('print', '*');
             printFrame.contentWindow.addEventListener('message', (event) => {
-                if(event.data === 'print') {
+                if (event.data === 'print') {
                     printFrame.contentWindow.print();
                 }
             });
@@ -123,15 +123,15 @@
             // Code Snipet 3 - end
         }
 
-
-        <button type="button" onclick="printPdfIframeInNewWindow()">Print the pdf iframe in a new window!</button>
-        </br>
-<button type="button" onclick="printPdfIframeInSameWindow()">Print the pdf iframe in same window!</button>
-</br>
-
-<button type="button" onclick="printPdfIframeInSameWindowPost()">Print the pdf iframe in same window by posting!</button>
-
     </script>
+
+    <button type="button" onclick="printPdfIframeInNewWindow()">Print the pdf iframe in a new window!</button>
+    </br>
+    <button type="button" onclick="printPdfIframeInSameWindow()">Print the pdf iframe in same window!</button>
+    </br>
+
+    <button type="button" onclick="printPdfIframeInSameWindowPost()">Print the pdf iframe in same window by
+        posting!</button>
 </body>
 
 </html>
