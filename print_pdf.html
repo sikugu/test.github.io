@@ -53,8 +53,13 @@ function generateAndPrintPDF() {
 
     // Create blob URL
     const blobUrl = URL.createObjectURL(pdfBlob);
+    return blobUrl;
+}
+
+function printPdfIframeInNewWindow() {
     
  	// Code Snipet 1 - Open blob in new tab (this solves cors error)
+    const blobUrl = generateAndPrintPDF();
 
     const printWindow = window.open(blobUrl, '_blank');
     if(printWindow) {
@@ -66,6 +71,7 @@ function generateAndPrintPDF() {
             }
         }, true);
     }
+}
     
     // Code Snipet 1 - end
     
@@ -123,11 +129,10 @@ function generateAndPrintPDF() {
     
 }
 
-// HTML button to trigger the function
-const button = document.createElement('button');
-button.innerHTML = 'Generate and Print PDF';
-button.onclick = generateAndPrintPDF;
-document.body.appendChild(button);
+
+
+<button type="button" onclick="printPdfIframeInNewWindow()">Print the pdf iframe in a new window!</button>
+
 </script>
 </body>
 </html>
