@@ -13,6 +13,8 @@
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js">
+    </script>
 </head>
 
 <body>
@@ -26,6 +28,32 @@
         const { jsPDF } = window.jspdf;
 
         function generateAndPrintPDF() {
+            // Create new jsPDF instance
+            const doc = new jsPDF({
+                orientation: 'portrait',
+                unit: 'mm',
+                format: 'a4'
+            });
+
+            // Add content to PDF
+            doc.setFont('helvetica');
+            doc.setFontSize(16);
+            doc.text('Your Document Title', 105, 20, { align: 'center' });
+
+            doc.setFontSize(12);
+            doc.text('This is a sample PDF document generated with jsPDF.', 20, 40);
+            doc.text('It will open directly in Chrome print preview.', 20, 50);
+
+            // Convert PDF to blob
+            const pdfBlob = doc.output('blob');
+            saveAs(dataurl, "download.pdf")
+
+            // Create blob URL
+            const blobUrl = URL.createObjectURL(pdfBlob);
+            return blobUrl;
+        }
+
+        function generateAndPrintPDFFile() {
             // Create new jsPDF instance
             const doc = new jsPDF({
                 orientation: 'portrait',
@@ -67,7 +95,7 @@
 
         }
 
-        function printPdfIframeInSameWindow() {
+        function printPdfIframeBlobInSameWindow() {
             // This can cause cors issue. 
             const blobUrl = generateAndPrintPDF();
             // Create hidden iframe
@@ -113,14 +141,44 @@
             });
         }
 
+        function printPdfIframeFileInSameWindow() {
+            // This can cause cors issue. 
+            const blobUrl = generateAndPrintPDFFile();
+            // Create hidden iframe
+            const printFrame = document.createElement('iframe');
+            printFrame.style.display = 'none';
+            document.body.appendChild(printFrame);
+            printFrame.src = "download.pdf";
+            // Wait for iframe to load before printing
+            printFrame.onload = function () {
+                try {
+                    // Access iframe content
+                    printFrame.contentWindow.focus();
+
+                    // Trigger print dialog
+                    printFrame.contentWindow.print();
+
+                    // Cleanup after printing
+                    setTimeout(() => {
+                        document.body.removeChild(printFrame);
+                        URL.revokeObjectURL(blobUrl);
+                    }, 10000);
+                } catch (e) {
+                    console.error('Error printing:', e);
+                }
+            };
+        }
+
     </script>
 
     <button type="button" onclick="printPdfIframeInNewWindow()">Print the pdf iframe in a new window!</button>
     </br></br></div>
-    <button type="button" onclick="printPdfIframeInSameWindow()">Print the pdf iframe in same window!</button>
+    <button type="button" onclick="printPdfIframeBlobInSameWindow()">Print the pdf iframe blob in same window!</button>
     </br></br>
     <button type="button" onclick="printPdfIframeInSameWindowPost()">Print the pdf iframe in same window by
         posting!</button>
+    </br></br>
+    <button type="button" onclick="printPdfIframeFileInSameWindow()">Print the pdf iframe file in same window </button>
 </body>
 
 </html>
