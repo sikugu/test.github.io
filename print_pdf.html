@@ -71,7 +71,7 @@
 
             // Convert PDF to blob
             const pdfBlob = doc.output('blob');
-            saveAs(dataurl, "download.pdf")
+            saveAs(pdfBlob, "download.pdf")
             // Create blob URL
             const blobUrl = URL.createObjectURL(pdfBlob);
             return blobUrl;
